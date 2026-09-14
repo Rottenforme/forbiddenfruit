@@ -8,7 +8,7 @@
 1. https://console.firebase.google.com 에서 새 프로젝트 생성
 2. **Authentication** → 시작하기 → 로그인 방법에서 **이메일/비밀번호** 활성화
 3. **Authentication > Users** 탭에서 계정 2개 추가
-   - `elexion@user.local` — 엘렉시온용 비밀번호
+   - `eleccion@user.local` — 엘렉시온용 비밀번호
    - `demogorgon@user.local` — 데모고르곤용 비밀번호
    (이 두 이메일 주소는 `app.js`의 `ACCOUNTS`에 고정되어 있어서 정확히 이 철자로 만들어야 합니다.)
 4. **Firestore Database** → 데이터베이스 만들기 (프로덕션 모드)
@@ -21,7 +21,7 @@ service cloud.firestore {
     match /profiles/{who} {
       allow read: if true;
       allow write: if request.auth != null && (
-        (who == 'elexion' && request.auth.token.email == 'elexion@user.local') ||
+        (who == 'eleccion' && request.auth.token.email == 'eleccion@user.local') ||
         (who == 'demogorgon' && request.auth.token.email == 'demogorgon@user.local')
       );
     }
@@ -34,11 +34,11 @@ service cloud.firestore {
     match /messages/{id} {
       allow read: if true;
       allow create: if request.auth != null && (
-        (request.resource.data.senderId == 'elexion' && request.auth.token.email == 'elexion@user.local') ||
+        (request.resource.data.senderId == 'eleccion' && request.auth.token.email == 'eleccion@user.local') ||
         (request.resource.data.senderId == 'demogorgon' && request.auth.token.email == 'demogorgon@user.local')
       );
       allow update, delete: if request.auth != null && (
-        (resource.data.senderId == 'elexion' && request.auth.token.email == 'elexion@user.local') ||
+        (resource.data.senderId == 'eleccion' && request.auth.token.email == 'eleccion@user.local') ||
         (resource.data.senderId == 'demogorgon' && request.auth.token.email == 'demogorgon@user.local')
       );
     }
@@ -53,7 +53,7 @@ service cloud.firestore {
 - `index.html` + `app.js`: 사이트 전체 (로그인 전/후 화면 전환 포함)
 - `style.css`: 스타일
 - `firebase-config.js`: Firebase 프로젝트 설정값
-- `elexion_logo.png` / `demogorgon_logo.png`: 상단 로고 (검+뱀 = 엘렉시온, 총+심장 = 데모고르곤)
+- `eleccion_logo.png` / `demogorgon_logo.png`: 상단 로고 (검+뱀 = 엘렉시온, 총+심장 = 데모고르곤)
 
 ## 3. 화면 동작
 

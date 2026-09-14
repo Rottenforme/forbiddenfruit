@@ -1,8 +1,8 @@
 const ACCOUNTS = {
-  elexion: { email: "elexion@user.local", label: "엘렉시온" },
+  eleccion: { email: "eleccion@user.local", label: "엘렉시온" },
   demogorgon: { email: "demogorgon@user.local", label: "데모고르곤" },
 };
-function otherOf(id) { return id === "elexion" ? "demogorgon" : "elexion"; }
+function otherOf(id) { return id === "eleccion" ? "demogorgon" : "eleccion"; }
 
 firebase.initializeApp(window.firebaseConfig);
 const auth = firebase.auth();
@@ -10,15 +10,15 @@ const db = firebase.firestore();
 const el = (id) => document.getElementById(id);
 
 let currentAccount = null;
-let profiles = { elexion: null, demogorgon: null };
+let profiles = { eleccion: null, demogorgon: null };
 let sharedData = {};
 let messages = [];
 let selectedExpressionImageUrl = null;
 
 /* ===== 프로필 구독 ===== */
-db.collection("profiles").doc("elexion").onSnapshot((doc) => {
-  profiles.elexion = doc.data() || {};
-  if (currentAccount === "elexion") { applyAccentColor(); applyBackground(); }
+db.collection("profiles").doc("eleccion").onSnapshot((doc) => {
+  profiles.eleccion = doc.data() || {};
+  if (currentAccount === "eleccion") { applyAccentColor(); applyBackground(); }
   renderHeader();
   renderMessages();
   updateExpressionButton();
@@ -47,7 +47,7 @@ db.collection("messages").orderBy("createdAt", "asc").onSnapshot((snap) => {
 
 /* ===== 로그인 상태 ===== */
 auth.onAuthStateChanged((user) => {
-  if (user && user.email === ACCOUNTS.elexion.email) currentAccount = "elexion";
+  if (user && user.email === ACCOUNTS.eleccion.email) currentAccount = "eleccion";
   else if (user && user.email === ACCOUNTS.demogorgon.email) currentAccount = "demogorgon";
   else currentAccount = null;
 
@@ -83,13 +83,13 @@ function applyBackground() {
 
 function renderLogos() {
   if (!currentAccount) {
-    el("logoElexion").hidden = false;
+    el("logoEleccion").hidden = false;
     el("logoDemogorgon").hidden = false;
-  } else if (currentAccount === "elexion") {
-    el("logoElexion").hidden = false;
+  } else if (currentAccount === "eleccion") {
+    el("logoEleccion").hidden = false;
     el("logoDemogorgon").hidden = true;
   } else {
-    el("logoElexion").hidden = true;
+    el("logoEleccion").hidden = true;
     el("logoDemogorgon").hidden = false;
   }
 }
@@ -153,7 +153,7 @@ function renderMessages() {
   messages.forEach((m) => {
     const senderProfile = profiles[m.senderId] || {};
     const color = senderProfile.color || "#6B6B6B";
-    const isRight = m.senderId === "elexion";
+    const isRight = m.senderId === "eleccion";
 
     const row = document.createElement("div");
     row.className = "msg-row " + (isRight ? "right" : "left");
@@ -377,7 +377,7 @@ el("loginMenuItem").addEventListener("click", () => {
   el("loginError").hidden = true;
   el("passwordInput").value = "";
   document.querySelectorAll(".account-pick-btn").forEach((b, i) => b.classList.toggle("active", i === 0));
-  el("loginAccount").value = "elexion";
+  el("loginAccount").value = "eleccion";
   el("loginBackdrop").classList.add("open");
 });
 document.querySelectorAll(".account-pick-btn").forEach((b) => {
